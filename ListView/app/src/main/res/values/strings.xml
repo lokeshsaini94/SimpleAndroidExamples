@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">My Test App</string>
+    <string name="app_name">ListView</string>
+
+    <string-array name="friends">
+        <item>Sudhir</item>
+        <item>Piyush</item>
+        <item>Mumukshoo</item>
+        <item>Harsh</item>
+        <item>Shubham</item>
+        <item>Balvinder</item>
+        <item>Deepanshu</item>
+    </string-array>
 </resources>

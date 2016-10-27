@@ -13,28 +13,47 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 1. get a reference to recyclerView
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // This is data for the recycler view
+        Friend[] friends = setFriends();
 
-        // this is data fro recycler view
-        ItemData itemsData[] = {
-                new ItemData("Lokesh"),
-                new ItemData("Sudhir"),
-                new ItemData("Piyush"),
-                new ItemData("Mumukshoo"),
-                new ItemData("Harsh"),
-                new ItemData("Shubham"),
-                new ItemData("Balvinder"),
-                new ItemData("Deepanshu")
+        // 1. Get a reference to the recyclerView
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // 2. Set layoutManger
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // 3. Create an adapter
+        FriendsAdapter mAdapter = new FriendsAdapter(this, friends);
+        // 4. Set the adapter
+        recyclerView.setAdapter(mAdapter);
+        // 5. Set item animator to DefaultAnimator
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public Friend[] setFriends() {
+        String[] names = {
+                "Sudhir",
+                "Piyush",
+                "Mumukshoo",
+                "Harsh",
+                "Shubham",
+                "Balvinder",
+                "Deepanshu"
+        };
+        int[] icons = {
+                R.drawable.ic_mood_white_24dp,
+                R.drawable.ic_mood_bad_white_24dp,
+                R.drawable.ic_sentiment_neutral_white_24dp,
+                R.drawable.ic_sentiment_dissatisfied_white_24dp,
+                R.drawable.ic_sentiment_satisfied_white_24dp,
+                R.drawable.ic_sentiment_very_dissatisfied_white_24dp,
+                R.drawable.ic_sentiment_very_satisfied_white_24dp,
         };
 
-        // 2. set layoutManger
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // 3. create an adapter
-        MyAdapter mAdapter = new MyAdapter(itemsData);
-        // 4. set adapter
-        recyclerView.setAdapter(mAdapter);
-        // 5. set item animator to DefaultAnimator
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        Friend[] friends = new Friend[names.length];
+
+        for (int i = 0; i < names.length; i++) {
+            friends[i] = new Friend(names[i], icons[i]);
+        }
+
+        return friends;
     }
 }
