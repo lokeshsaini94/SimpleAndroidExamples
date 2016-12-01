@@ -7,14 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHolder> {
 
     private LayoutInflater layoutInflater;
-    private Friend[] friends;
+    private List<Friend> friends;
+    private Context context;
 
-    public FriendsAdapter(Context context, Friend[] friends) {
+    public FriendsAdapter(Context context, List<Friend> friends) {
         this.friends = friends;
+        this.context = context;
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -27,16 +32,16 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder viewHolder, int position) {
-        viewHolder.textView.setText(friends[position].getName());
-        viewHolder.imageView.setImageResource(friends[position].getIconID());
+        viewHolder.textView.setText(friends.get(position).getName());
+        viewHolder.imageView.setImageResource(friends.get(position).getIconID());
     }
 
     @Override
     public int getItemCount() {
-        return friends.length;
+        return friends.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textView;
         private ImageView imageView;
@@ -45,6 +50,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.name);
             imageView = (ImageView) itemView.findViewById(R.id.iconID);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(context, friends.get(getPosition()).getName() + " is a friend", Toast.LENGTH_SHORT).show();
         }
     }
 }

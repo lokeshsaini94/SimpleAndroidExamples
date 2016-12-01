@@ -2,7 +2,13 @@ package lokeshsaini.listview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,18 +17,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // This is data for the list view
-        Friend[] friends = setFriends();
-
         // 1. Get a reference to the recyclerView
         ListView mListView = (ListView) findViewById(R.id.listView);
         // 2. Create an adapter
-        FriendsAdapter friendsAdapter = new FriendsAdapter(this, friends);
+        final FriendsAdapter friendsAdapter = new FriendsAdapter(this, setFriends());
         // 3. Set the adapter
         mListView.setAdapter(friendsAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), friendsAdapter.getFriend(position) + " is a friend", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public Friend[] setFriends() {
+    public List<Friend> setFriends() {
         String[] names = getResources().getStringArray(R.array.friends);
         int[] iconID = {
                 R.drawable.ic_mood_white_24dp,
@@ -34,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.ic_sentiment_very_satisfied_white_24dp,
         };
 
-        Friend[] friends = new Friend[names.length];
+        List<Friend> friends = new ArrayList<>();
 
         for (int i = 0; i < names.length; i++) {
-            friends[i] = new Friend(names[i], iconID[i]);
+            friends.add(new Friend(names[i], iconID[i]));
         }
 
         return friends;
